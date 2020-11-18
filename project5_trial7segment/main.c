@@ -47,6 +47,10 @@ char seg_code[] =		//array
 };
 
 void tampilkanAngka (int angkanya);
+void segment1 (void);
+void segment2 (void);
+void segment3 (void);
+void segment4 (void);
 
 int main(void)
 {
@@ -56,11 +60,26 @@ int main(void)
 	
 	PORTB = 0x00;
 	
-	tampilkanAngka(2);
+//	tampilkanAngka(2);
+//	segment1();
 	
-    /* Replace with your application code */
     while (1) 
     {
+		tampilkanAngka(1);
+		segment1();
+		_delay_ms(10);
+		
+		tampilkanAngka(2);
+		segment2();
+		_delay_ms(10);
+		
+		tampilkanAngka(3);
+		segment3();
+		_delay_ms(10);
+		
+		tampilkanAngka(4);
+		segment4();
+		_delay_ms(10);
     }
 }
 
@@ -84,5 +103,61 @@ void tampilkanAngka (int angkanya)
 	PORTB = temp0;
 	
 }
+
+void segment1(void)
+{
+	char temp1;
+	
+	// cuma nyalakan 7segment D1, PortB2
+	// b7.b6.b5.b4.b3.b2.b1.b0	-> portC
+	
+	//       b5.b4.b3.b2.b1.b0	-> portC
+	//       s4.s3.s2.s1.dp. g	-> portB
+	
+	// PB2
+	//PORTB = 0b11111011;
+	
+	/*
+	baca portB 
+	diolah -> s1 / PB2 aja
+	keluarkan ke portB 
+	*/
+	
+	temp1 =  PINB;
+	temp1 &= 0b00000011;
+	temp1 |= 0b11111000; //pasti PB2 = '0'
+	PORTB =  temp1;
+}
+
+
+void segment2 (void)
+{
+	char temp1;
+		
+	temp1 =  PINB;
+	temp1 &= 0b00000011;
+	temp1 |= 0b11110100; //pasti PB3 = '0'
+	PORTB =  temp1;
+}
+void segment3 (void)
+{
+	char temp1;
+	
+	temp1 =  PINB;
+	temp1 &= 0b00000011;
+	temp1 |= 0b11101100; //pasti PB4 = '0'
+	PORTB =  temp1;
+}
+void segment4 (void)
+{
+	char temp1;
+	
+	temp1 =  PINB;
+	temp1 &= 0b00000011;
+	temp1 |= 0b11011100; //pasti PB5 = '0'
+	PORTB =  temp1;
+}
+
+
 
 
