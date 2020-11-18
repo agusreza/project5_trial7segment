@@ -27,8 +27,6 @@
 	   seg4 = PB5
 */
 
-char temporary;		// char 8 bit
-char temporaryy[12]; // temporaryy[0]-temporary[11]
 
 char seg_code[] =		//array
 {
@@ -54,6 +52,8 @@ void segment4 (void);
 
 int main(void)
 {
+	int counterr; // 16 bit = 0-65535 = -32767 -> +32xxx
+	int temp, nomor, kumpulinDelay;
 	
 	DDRB = 0xff;
 	DDRC = 0xff;
@@ -63,23 +63,48 @@ int main(void)
 //	tampilkanAngka(2);
 //	segment1();
 	
+	counterr = 400; // 0 - 9999
+	kumpulinDelay = 0;
+	
     while (1) 
     {
-		tampilkanAngka(1);
-		segment1();
-		_delay_ms(10);
+		nomor = counterr;
 		
-		tampilkanAngka(2);
-		segment2();
-		_delay_ms(10);
+		temp = nomor / 1000;
+		nomor = nomor % 1000;	//modulus = 245
 		
-		tampilkanAngka(3);
-		segment3();
-		_delay_ms(10);
-		
-		tampilkanAngka(4);
+		tampilkanAngka(temp);
 		segment4();
-		_delay_ms(10);
+		_delay_ms(5);
+		
+		temp = nomor / 100;		// temp = 2
+		nomor = nomor % 100;
+		tampilkanAngka(temp);
+		segment3();
+		_delay_ms(5);
+		
+		temp = nomor / 10; 
+		
+		tampilkanAngka(temp);
+		segment2();
+		_delay_ms(5);
+		
+		nomor = nomor % 10;
+		tampilkanAngka(nomor);
+		segment1();
+		_delay_ms(5);
+		
+		kumpulinDelay++;
+		if (kumpulinDelay > 2)
+		{
+			counterr--;
+			if (counterr == 0)
+			{
+				counterr = 120;
+			}
+			kumpulinDelay = 0;
+		}
+		
     }
 }
 
