@@ -60,15 +60,20 @@ int main(void)
 	
 	PORTB = 0x00;
 	
-//	tampilkanAngka(2);
-//	segment1();
+	// configurasi input 
+	DDRD = 0x00;
+	PORTD = 0xFF;	// pull up ON
 	
-	counterr = 400; // 0 - 9999
+	// configurasi counter 1, dari input external
+	TCCR1B |=  (1 << CS12) | (1 << CS11) | (1 << CS10);
+	
+	
+//	counterr = 0; // 0 - 9999
 	kumpulinDelay = 0;
 	
     while (1) 
     {
-		nomor = counterr;
+		nomor = TCNT1;
 		
 		temp = nomor / 1000;
 		nomor = nomor % 1000;	//modulus = 245
@@ -94,16 +99,16 @@ int main(void)
 		segment1();
 		_delay_ms(5);
 		
-		kumpulinDelay++;
-		if (kumpulinDelay > 2)
-		{
-			counterr--;
-			if (counterr == 0)
-			{
-				counterr = 120;
-			}
-			kumpulinDelay = 0;
-		}
+		//kumpulinDelay++;
+		//if (kumpulinDelay > 2)
+		//{
+			//counterr--;
+			//if (counterr == 0)
+			//{
+				//counterr = 120;
+			//}
+			//kumpulinDelay = 0;
+		//}
 		
     }
 }
